@@ -5,16 +5,20 @@ import { exportPDF } from '../lib/exportPDF'
 import { SUBJECTS, GRADES, CRITERIA, LEVELS, ACADEMIC_YEAR, SEMESTER } from '../lib/constants'
 import { S, Spinner } from '../components/UI'
 
-export default function Dashboard({ teachers, showToast }) {
+export default function Dashboard({ teachers, showToast, currentUser }) {
   const [records,  setRecords]  = useState([])
   const [loading,  setLoading]  = useState(true)
   const [expanded, setExpanded] = useState(null)
   const [filter,   setFilter]   = useState({ name: '', date: '', subject: '', section: '' })
+  const [visitorSubject, setVisitorSubject] = useState('')
+
+  const isAdmin = currentUser?.role === 'admin'
 
   const load = async () => {
     setLoading(true)
     try {
-      const data = await evaluationsAPI.getAll(filter)
+      const activeFilter = isAdmin ? filter : { ...filter, subject: visitorSubject || filter.subject }
+      const data = await evaluationsAPI.getAll(activeFilter)
       setRecords(data)
     } catch (e) {
       showToast('خطأ في تحميل البيانات: ' + e.message, 'error')
@@ -22,7 +26,13 @@ export default function Dashboard({ teachers, showToast }) {
     setLoading(false)
   }
 
-  useEffect(() => { load() }, [])
+  useEffect(() => {
+    if (isAdmin || visitorSubject) {
+      load()
+    } else {
+      setLoading(false)
+    }
+  }, [visitorSubject])
 
   const handleFilter = async () => { await load() }
   const clearFilter  = () => {
@@ -41,6 +51,31 @@ export default function Dashboard({ teachers, showToast }) {
     }
   }
 
+  if (!isAdmin && !visitorSubject) {
+    return (
+      <div style={{ direction: 'rtl', fontFamily: "'Cairo',sans-serif", background: '#f0e8cc', minHeight: 'calc(100vh - 48px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
+        <div style={{ background: '#fff', borderRadius: '18px', padding: '40px', width: '100%', maxWidth: '400px', boxShadow: '0 20px 60px rgba(0,0,0,0.2)', border: '3px solid #c9a227', textAlign: 'center' }}>
+          <div style={{ fontSize: '40px', marginBottom: '16px' }}>📚</div>
+          <h2 style={{ color: '#8a6d0b', marginBottom: '8px', fontWeight: '900' }}>اختر المادة الدراسية</h2>
+          <p style={{ color: '#666', fontSize: '13px', marginBottom: '24px' }}>يرجى اختيار المادة لمشاهدة التقارير المعتمدة الخاصة بها</p>
+          <select 
+            style={{ ...S.sel, marginBottom: '20px', padding: '12px' }}
+            onChange={(e) => {
+              if (e.target.value) {
+                setVisitorSubject(e.target.value)
+                setFilter(f => ({ ...f, subject: e.target.value }))
+              }
+            }}
+          >
+            <option value="">-- اختر المادة --</option>
+            {SUBJECTS.map(s => <option key={s} value={s}>{s}</option>)}
+          </select>
+          <div style={{ fontSize: '11px', color: '#aaa' }}>سيتم عرض التقارير الخاصة بهذه المادة فقط</div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div style={{ direction: 'rtl', fontFamily: "'Cairo',sans-serif", background: '#f0e8cc', minHeight: 'calc(100vh - 48px)', padding: '16px' }}>
       <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
@@ -48,12 +83,19 @@ export default function Dashboard({ teachers, showToast }) {
         {/* Header */}
         <div style={{ background: 'linear-gradient(135deg,#c9a227,#e8c84a,#b8960c)', borderRadius: '12px', padding: '16px 22px', marginBottom: '14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
           <div>
-            <h2 style={{ margin: 0, color: '#2c1e00', fontSize: '18px', fontWeight: '900' }}>📊 سجل التقييمات</h2>
+            <h2 style={{ margin: 0, color: '#2c1e00', fontSize: '18px', fontWeight: '900' }}>📊 سجل التقييمات {visitorSubject && ` - ${visitorSubject}`}</h2>
             <div style={{ color: '#5c3d00', fontSize: '12px', marginTop: '2px' }}>{ACADEMIC_YEAR} | {SEMESTER} | إجمالي: {records.length}</div>
           </div>
-          <button onClick={load} style={S.btn('rgba(0,0,0,0.15)', '#2c1e00', { padding: '7px 16px', fontSize: '12px', border: '1px solid rgba(0,0,0,0.2)', borderRadius: '8px' })}>
-            🔄 تحديث
-          </button>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            {!isAdmin && (
+              <button onClick={() => setVisitorSubject('')} style={S.btn('#fff', '#8a6d0b', { padding: '7px 16px', fontSize: '12px', border: '1px solid #c9a227' })}>
+                🔄 تغيير المادة
+              </button>
+            )}
+            <button onClick={load} style={S.btn('rgba(0,0,0,0.15)', '#2c1e00', { padding: '7px 16px', fontSize: '12px', border: '1px solid rgba(0,0,0,0.2)', borderRadius: '8px' })}>
+              🔄 تحديث
+            </button>
+          </div>
         </div>
 
         {/* Filters */}
@@ -62,11 +104,15 @@ export default function Dashboard({ teachers, showToast }) {
             value={filter.name} onChange={e => setFilter(f => ({ ...f, name: e.target.value }))} />
           <input type="date" style={{ ...S.inp, maxWidth: '150px' }}
             value={filter.date} onChange={e => setFilter(f => ({ ...f, date: e.target.value }))} />
-          <select style={{ ...S.sel, maxWidth: '160px' }}
-            value={filter.subject} onChange={e => setFilter(f => ({ ...f, subject: e.target.value }))}>
-            <option value="">-- المجال --</option>
-            {SUBJECTS.map(s => <option key={s}>{s}</option>)}
-          </select>
+          
+          {isAdmin && (
+            <select style={{ ...S.sel, maxWidth: '160px' }}
+              value={filter.subject} onChange={e => setFilter(f => ({ ...f, subject: e.target.value }))}>
+              <option value="">-- المجال --</option>
+              {SUBJECTS.map(s => <option key={s}>{s}</option>)}
+            </select>
+          )}
+
           <select style={{ ...S.sel, maxWidth: '200px' }}
             value={filter.section} onChange={e => setFilter(f => ({ ...f, section: e.target.value }))}>
             <option value="">-- الصف والشعبة --</option>
@@ -79,7 +125,7 @@ export default function Dashboard({ teachers, showToast }) {
           <button onClick={handleFilter} style={S.btn('linear-gradient(135deg,#1a4a7a,#2563a8)', '#fff', { padding: '7px 14px', fontSize: '12px' })}>
             🔍 بحث
           </button>
-          {(filter.name || filter.date || filter.subject || filter.section) && (
+          {(filter.name || filter.date || (isAdmin && filter.subject) || filter.section) && (
             <button onClick={clearFilter} style={S.btn('#fee2e2', '#c0392b', { padding: '7px 12px', fontSize: '12px', border: '1px solid #fca5a5', borderRadius: '6px' })}>
               ✕ مسح
             </button>
@@ -141,10 +187,12 @@ export default function Dashboard({ teachers, showToast }) {
                       style={S.btn('linear-gradient(135deg,#c9a227,#e8c84a)', '#2c1e00', { padding: '5px 14px', fontSize: '11px' })}>
                       📄 PDF
                     </button>
-                    <button onClick={() => handleDelete(r.id)}
-                      style={S.btn('linear-gradient(135deg,#8b2500,#c0392b)', '#fff', { padding: '5px 10px', fontSize: '11px' })}>
-                      🗑️
-                    </button>
+                    {isAdmin && (
+                      <button onClick={() => handleDelete(r.id)}
+                        style={S.btn('linear-gradient(135deg,#8b2500,#c0392b)', '#fff', { padding: '5px 10px', fontSize: '11px' })}>
+                        🗑️
+                      </button>
+                    )}
                   </div>
                 </div>
 

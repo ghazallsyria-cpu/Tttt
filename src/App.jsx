@@ -53,11 +53,9 @@ export default function App() {
           <div style={{ fontWeight: '900', fontSize: '14px', whiteSpace: 'nowrap' }}>🇰🇼 نظام التقييم</div>
           <div style={{ width: '1px', height: '20px', background: '#555', display: 'none' }}></div>
           <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+            <button onClick={() => setPage('dashboard')} style={{ background: 'none', border: 'none', color: page === 'dashboard' ? '#fff' : '#aaa', cursor: 'pointer', fontWeight: '700', fontSize: '13px' }}>📊 السجل</button>
             {user.role === 'admin' && (
-              <>
-                <button onClick={() => setPage('dashboard')} style={{ background: 'none', border: 'none', color: page === 'dashboard' ? '#fff' : '#aaa', cursor: 'pointer', fontWeight: '700', fontSize: '13px' }}>📊 السجل</button>
-                <button onClick={() => setPage('teachers')} style={{ background: 'none', border: 'none', color: page === 'teachers' ? '#fff' : '#aaa', cursor: 'pointer', fontWeight: '700', fontSize: '13px' }}>👨‍🏫 المعلمين</button>
-              </>
+              <button onClick={() => setPage('teachers')} style={{ background: 'none', border: 'none', color: page === 'teachers' ? '#fff' : '#aaa', cursor: 'pointer', fontWeight: '700', fontSize: '13px' }}>👨‍🏫 المعلمين</button>
             )}
             <button onClick={() => setPage('eval')} style={{ background: 'none', border: 'none', color: page === 'eval' ? '#fff' : '#aaa', cursor: 'pointer', fontWeight: '700', fontSize: '13px' }}>📝 تقييم</button>
           </div>
@@ -70,7 +68,7 @@ export default function App() {
 
       {/* Page Content */}
       <main>
-        {page === 'dashboard' && <Dashboard teachers={teachers} showToast={showToast} />}
+        {page === 'dashboard' && <Dashboard teachers={teachers} showToast={showToast} currentUser={user} />}
         {page === 'teachers' && <TeacherManager teachers={teachers} setTeachers={setTeachers} showToast={showToast} />}
         {page === 'eval' && <EvalForm teachers={teachers} onSaved={() => setPage('dashboard')} showToast={showToast} currentUser={user} />}
       </main>
