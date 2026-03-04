@@ -2,7 +2,6 @@
 import { useState } from 'react'
 import { authAPI } from '../lib/supabase'
 import { ACADEMIC_YEAR, SEMESTER, LOGO_URL } from '../lib/constants'
-import { S } from '../components/UI'
 
 export default function Login({ onLogin }) {
   const [u, setU] = useState('')
@@ -25,6 +24,13 @@ export default function Login({ onLogin }) {
       setErr('خطأ في الاتصال بقاعدة البيانات — تحقق من إعدادات Supabase')
     }
     setLoading(false)
+  }
+
+  const inputStyle = {
+    border: '1.5px solid #c9a227', borderRadius: '6px', padding: '10px 12px',
+    fontSize: '14px', background: '#fffdf5', color: '#222', outline: 'none',
+    fontFamily: 'inherit', direction: 'rtl', width: '100%', boxSizing: 'border-box',
+    marginBottom: '12px'
   }
 
   return (
@@ -71,14 +77,14 @@ export default function Login({ onLogin }) {
 
         <input
           placeholder="اسم المستخدم"
-          style={{ ...S.inp, marginBottom: '12px' }}
+          style={inputStyle}
           value={u} onChange={e => setU(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && go()}
           disabled={loading}
         />
         <input
           type="password" placeholder="كلمة المرور"
-          style={{ ...S.inp, marginBottom: '16px' }}
+          style={{ ...inputStyle, marginBottom: '20px' }}
           value={p} onChange={e => setP(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && go()}
           disabled={loading}
@@ -87,8 +93,11 @@ export default function Login({ onLogin }) {
           <div style={{ color: '#c0392b', fontSize: '13px', marginBottom: '12px', fontWeight: '600' }}>{err}</div>
         )}
         <button onClick={go} disabled={loading} style={{
-          ...S.btn('linear-gradient(135deg,#c9a227,#e8c84a)', '#2c1e00'),
-          width: '100%', padding: '13px', fontSize: '15px', fontWeight: '800',
+          background: 'linear-gradient(135deg,#c9a227,#e8c84a)', color: '#2c1e00',
+          border: 'none', borderRadius: '8px',
+          padding: '13px', fontSize: '15px', fontWeight: '800',
+          cursor: 'pointer', fontFamily: 'inherit',
+          width: '100%',
           opacity: loading ? 0.7 : 1,
         }}>
           {loading ? '⏳ جارٍ التحقق...' : 'دخول →'}
