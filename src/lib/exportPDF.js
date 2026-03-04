@@ -3,33 +3,42 @@ import { LEVELS, CRITERIA, ACADEMIC_YEAR, SEMESTER, LOGO_URL } from './constants
 
 export function exportPDF(record, teachers) {
   if (!record) return
-  const teacher = teachers.find(t => t.id === record.teacher_id) || {}
   
-  // Prepare counts
-  const counts  = {}
-  LEVELS.forEach(l => {
-    counts[l.key] = Object.values(record.ratings).filter(v => v === l.key).length
-  })
+  try {
+    const teacher = teachers.find(t => t.id === record.teacher_id) || {}
+    
+    // Prepare counts
+    const counts  = {}
+    LEVELS.forEach(l => {
+      counts[l.key] = Object.values(record.ratings).filter(v => v === l.key).length
+    })
 
-  // Ensure absolute logo URL for PDF window
-  const logoSrc = LOGO_URL.startsWith('http') ? LOGO_URL : `${window.location.origin}${LOGO_URL}`
+    // Safe logo URL
+    let logoSrc = '/logo.png'
+    try {
+      if (typeof LOGO_URL === 'string') {
+        logoSrc = LOGO_URL.startsWith('http') ? LOGO_URL : `${window.location.origin}${LOGO_URL}`
+      }
+    } catch (e) {
+      console.error('Error processing logo URL', e)
+    }
 
-  const rows = CRITERIA.map((c, i) => {
-    const rk = record.ratings[i] || ''
-    return `<tr>
-      <td style="text-align:center;width:26px;color:#8a6d0b;font-weight:700;border:1px solid #e0d09a">${i + 1}</td>
-      <td style="text-align:right;padding:4px 8px;border:1px solid #e0d09a;background:${i % 2 === 0 ? '#fffdf5' : '#f9f3e1'}">${c}</td>
-      ${LEVELS.map(l => `
-        <td style="text-align:center;width:50px;border:1px solid #e0d09a;
-          background:${rk === l.key ? l.bg : (i % 2 === 0 ? '#fffdf5' : '#f9f3e1')};
-          color:${rk === l.key ? l.color : '#ccc'};
-          font-weight:${rk === l.key ? 700 : 400};font-size:14px">
-          ${rk === l.key ? '✓' : '○'}
-        </td>`).join('')}
-    </tr>`
-  }).join('')
+    const rows = CRITERIA.map((c, i) => {
+      const rk = record.ratings[i] || ''
+      return `<tr>
+        <td style="text-align:center;width:26px;color:#8a6d0b;font-weight:700;border:1px solid #e0d09a">${i + 1}</td>
+        <td style="text-align:right;padding:4px 8px;border:1px solid #e0d09a;background:${i % 2 === 0 ? '#fffdf5' : '#f9f3e1'}">${c}</td>
+        ${LEVELS.map(l => `
+          <td style="text-align:center;width:50px;border:1px solid #e0d09a;
+            background:${rk === l.key ? l.bg : (i % 2 === 0 ? '#fffdf5' : '#f9f3e1')};
+            color:${rk === l.key ? l.color : '#ccc'};
+            font-weight:${rk === l.key ? 700 : 400};font-size:14px">
+            ${rk === l.key ? '✓' : '○'}
+          </td>`).join('')}
+      </tr>`
+    }).join('')
 
-  const html = `<!DOCTYPE html>
+    const html = `<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8"/>
@@ -195,10 +204,14 @@ ${record.visitor_note ? `
 </body>
 </html>`
 
-  const w = window.open('', '_blank', 'width=920,height=720')
-  if (!w) { alert('يرجى السماح بالنوافذ المنبثقة في المتصفح'); return }
-  
-  w.document.open()
-  w.document.write(html)
-  w.document.close()
+    const w = window.open('', '_blank', 'width=920,height=720')
+    if (!w) { alert('يرجى السماح بالنوافذ المنبثقة في المتصفح'); return }
+    
+    w.document.open()
+    w.document.write(html)
+    w.document.close()
+  } catch (e) {
+    console.error('PDF Error:', e)
+    alert('حدث خطأ أثناء إنشاء ملف PDF')
+  }
 }
