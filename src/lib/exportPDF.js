@@ -108,7 +108,8 @@ export function exportPDF(record, teachers) {
       <td class="lbl">الفصل الافتراضي</td><td class="val">${record.virtual_class || '—'}</td>
     </tr>
     <tr>
-      <td class="lbl">عنوان الدرس</td><td class="val" colspan="5">${record.lesson_title || '—'}</td>
+      <td class="lbl">عنوان الدرس</td><td class="val" colspan="3">${record.lesson_title || '—'}</td>
+      <td class="lbl">رقم الحصة</td><td class="val">${record.lesson_number ? `الحصة ${record.lesson_number}` : '—'}</td>
     </tr>
     <tr>
       <td class="lbl">عدد الحضور</td>

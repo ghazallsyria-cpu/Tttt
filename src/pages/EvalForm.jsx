@@ -13,7 +13,7 @@ const ERR = '#c0392b'
 export default function EvalForm({ teachers, onSaved, showToast, currentUser }) {
   const blank = useCallback(() => ({
     teacher_id: '', day: '', date: todayStr(), subject: '', virtual_class: '',
-    class_section: '', lesson_title: '',
+    class_section: '', lesson_title: '', lesson_number: '',
     present: '', absent: '', total_students: '',
     ratings: initRatings(),
     visitor_note: '', visitor_signature: '', teacher_signature: '',
@@ -130,6 +130,13 @@ export default function EvalForm({ teachers, onSaved, showToast, currentUser }) 
                 <input style={{ ...S.inp, borderColor: errors.lesson_title ? ERR : '#c9a227' }}
                   placeholder="أدخل عنوان الدرس..."
                   value={form.lesson_title} onChange={e => set('lesson_title', e.target.value)} />
+              </Fld>
+
+              <Fld label="رقم الحصة">
+                <select style={S.sel} value={form.lesson_number} onChange={e => set('lesson_number', e.target.value)}>
+                  <option value="">-- اختر --</option>
+                  {[1,2,3,4,5,6,7,8].map(n => <option key={n} value={n}>الحصة {n}</option>)}
+                </select>
               </Fld>
 
               <Fld label="الصف والشعبة" err={errors.class_section} span="auto">

@@ -112,7 +112,7 @@ export default function Dashboard({ teachers, showToast }) {
                   <div style={{ flex: 1, minWidth: '150px' }}>
                     <div style={{ fontWeight: '800', fontSize: '14px', color: '#2c1e00' }}>{r.teacher_name}</div>
                     <div style={{ fontSize: '11px', color: '#888', marginTop: '2px' }}>
-                      {r.subject} · {r.class_section} · {r.day} {r.date}
+                      {r.subject} · {r.class_section} · {r.day} {r.date} {r.lesson_number ? `· الحصة ${r.lesson_number}` : ''}
                     </div>
                     <div style={{ fontSize: '11px', color: '#aaa', marginTop: '1px' }}>{r.lesson_title}</div>
                   </div>
