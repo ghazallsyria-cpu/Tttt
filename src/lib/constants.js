@@ -3,6 +3,8 @@
 export const ACADEMIC_YEAR = '2025/2026'
 export const SEMESTER      = 'الفصل الثاني'
 
+export const LOGO_URL = '/logo.png'
+
 export const DAYS = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس']
 
 export const SUBJECTS = [

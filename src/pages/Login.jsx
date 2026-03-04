@@ -1,7 +1,7 @@
 // src/pages/Login.jsx
 import { useState } from 'react'
 import { authAPI } from '../lib/supabase'
-import { ACADEMIC_YEAR, SEMESTER } from '../lib/constants'
+import { ACADEMIC_YEAR, SEMESTER, LOGO_URL } from '../lib/constants'
 import { S } from '../components/UI'
 
 export default function Login({ onLogin }) {
@@ -38,7 +38,7 @@ export default function Login({ onLogin }) {
         width: '100%', maxWidth: '360px',
         boxShadow: '0 24px 70px rgba(0,0,0,0.4)', border: '3px solid #c9a227', textAlign: 'center',
       }}>
-        <div style={{ fontSize: '52px', marginBottom: '8px' }}>🇰🇼</div>
+        <img src={LOGO_URL} alt="Logo" style={{ width: '100px', height: '100px', marginBottom: '16px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #c9a227' }} referrerPolicy="no-referrer" />
         <h2 style={{ margin: '0 0 4px', color: '#8a6d0b', fontSize: '20px', fontWeight: '900' }}>نظام تقييم المعلمين</h2>
         <p style={{ color: '#aaa', fontSize: '12px', marginBottom: '8px' }}>وزارة التربية – دولة الكويت</p>
         <div style={{

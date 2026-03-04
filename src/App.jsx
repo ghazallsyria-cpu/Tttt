@@ -5,6 +5,7 @@ import EvalForm from './pages/EvalForm'
 import TeacherManager from './pages/TeacherManager'
 import { Toast, S } from './components/UI'
 import { teachersAPI } from './lib/supabase'
+import { LOGO_URL } from './lib/constants'
 
 export default function App() {
   const [user, setUser] = useState(null)
@@ -29,8 +30,8 @@ export default function App() {
       <>
         {toast && <Toast msg={toast.msg} type={toast.type} onClose={() => setToast(null)} />}
         <Login onLogin={setUser} />
-        <div style={{position: 'fixed', bottom: 10, left: 10, fontSize: '10px', color: '#ccc'}}>
-          Mock Login: admin/123 or visitor/123
+        <div style={{ textAlign: 'center', padding: '10px', color: '#8a6d0b', fontWeight: '700', fontSize: '14px' }}>
+          برمجة الاستاذ : ايهاب جمال غزال
         </div>
       </>
     )
@@ -47,6 +48,7 @@ export default function App() {
         color: '#e8d58a', borderBottom: '3px solid #c9a227'
       }}>
         <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+          <img src={LOGO_URL} alt="Logo" style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover', border: '1px solid #c9a227' }} referrerPolicy="no-referrer" />
           <div style={{ fontWeight: '900', fontSize: '16px' }}>🇰🇼 نظام التقييم</div>
           <div style={{ width: '1px', height: '20px', background: '#555' }}></div>
           {user.role === 'admin' && (
@@ -69,6 +71,12 @@ export default function App() {
         {page === 'teachers' && <TeacherManager teachers={teachers} setTeachers={setTeachers} showToast={showToast} />}
         {page === 'eval' && <EvalForm teachers={teachers} onSaved={() => setPage('dashboard')} showToast={showToast} currentUser={user} />}
       </main>
+      <footer style={{
+        textAlign: 'center', padding: '16px', color: '#8a6d0b', fontWeight: '700',
+        fontSize: '14px', borderTop: '1px solid #e8d58a', background: '#fffdf5'
+      }}>
+        برمجة الاستاذ : ايهاب جمال غزال
+      </footer>
     </div>
   )
 }

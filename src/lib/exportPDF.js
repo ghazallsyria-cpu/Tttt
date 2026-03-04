@@ -1,5 +1,5 @@
 // src/lib/exportPDF.js
-import { LEVELS, CRITERIA, ACADEMIC_YEAR, SEMESTER } from './constants'
+import { LEVELS, CRITERIA, ACADEMIC_YEAR, SEMESTER, LOGO_URL } from './constants'
 
 export function exportPDF(record, teachers) {
   const teacher = teachers.find(t => t.id === record.teacher_id) || {}
@@ -77,7 +77,10 @@ export function exportPDF(record, teachers) {
 <body>
 <div id="hdr">
   <div class="hi">
-    <div class="hr">وزارة التربية — الإدارة العامة للتعليم الخاص<br/>مدرسة الرفعة النموذجية (م-ث) بنين</div>
+    <div class="hr">
+      <img src="${LOGO_URL}" style="width:40px;height:40px;border-radius:50%;margin-bottom:4px;display:block;border:1px solid #8a6d0b"/><br/>
+      وزارة التربية — الإدارة العامة للتعليم الخاص<br/>مدرسة الرفعة النموذجية (م-ث) بنين
+    </div>
     <div class="hc">🇰🇼<br/><span style="font-size:8px">دولة الكويت</span></div>
     <div class="hl">
       العام الدراسي: <strong>${ACADEMIC_YEAR}</strong><br/>

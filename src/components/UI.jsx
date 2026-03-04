@@ -1,6 +1,6 @@
 // src/components/UI.jsx  — مكونات مشتركة
 import { useState } from 'react'
-import { GRADES, LEVELS } from '../lib/constants'
+import { GRADES, LEVELS, LOGO_URL } from '../lib/constants'
 
 // ── Shared Styles ──────────────────────────────────────────────
 export const S = {
@@ -199,10 +199,13 @@ export function PageHeader({ academicYear, semester }) {
         padding: '14px 22px 10px', borderBottom: '3px solid #b8960c',
         background: '#fffdf5', gap: '10px', flexWrap: 'wrap',
       }}>
-        <div style={{ textAlign: 'right' }}>
-          <div style={{ fontSize: '13px', fontWeight: '700', color: '#8a6d0b' }}>وزارة التربية</div>
-          <div style={{ fontSize: '11px', color: '#6b5209' }}>الإدارة العامة للتعليم الخاص</div>
-          <div style={{ fontSize: '11px', color: '#6b5209' }}>مدرسة الرفعة النموذجية (م-ث) بنين</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <img src={LOGO_URL} alt="Logo" style={{ width: '60px', height: '60px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #c9a227' }} referrerPolicy="no-referrer" />
+          <div style={{ textAlign: 'right' }}>
+            <div style={{ fontSize: '13px', fontWeight: '700', color: '#8a6d0b' }}>وزارة التربية</div>
+            <div style={{ fontSize: '11px', color: '#6b5209' }}>الإدارة العامة للتعليم الخاص</div>
+            <div style={{ fontSize: '11px', color: '#6b5209' }}>مدرسة الرفعة النموذجية (م-ث) بنين</div>
+          </div>
         </div>
         <div style={{ textAlign: 'center' }}>
           <div style={{ fontSize: '46px', lineHeight: 1 }}>🇰🇼</div>
