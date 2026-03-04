@@ -2,11 +2,17 @@
 import { LEVELS, CRITERIA, ACADEMIC_YEAR, SEMESTER, LOGO_URL } from './constants'
 
 export function exportPDF(record, teachers) {
+  if (!record) return
   const teacher = teachers.find(t => t.id === record.teacher_id) || {}
+  
+  // Prepare counts
   const counts  = {}
   LEVELS.forEach(l => {
     counts[l.key] = Object.values(record.ratings).filter(v => v === l.key).length
   })
+
+  // Ensure absolute logo URL for PDF window
+  const logoSrc = LOGO_URL.startsWith('http') ? LOGO_URL : `${window.location.origin}${LOGO_URL}`
 
   const rows = CRITERIA.map((c, i) => {
     const rk = record.ratings[i] || ''
@@ -29,9 +35,8 @@ export function exportPDF(record, teachers) {
 <meta charset="UTF-8"/>
 <title>تقييم ${teacher.name || ''} — #${record.id}</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Cairo',Arial,sans-serif;direction:rtl;background:#fff;color:#222;font-size:12px;line-height:1.4}
+  body{font-family:sans-serif;direction:rtl;background:#fff;color:#222;font-size:12px;line-height:1.4}
   
   /* Header */
   #hdr{
@@ -83,7 +88,7 @@ export function exportPDF(record, teachers) {
 
 <div id="hdr">
   <div class="h-right">
-    <img src="${LOGO_URL}" class="logo-img" alt="Logo" />
+    <img src="${logoSrc}" class="logo-img" alt="Logo" />
     <h1>دولة الكويت</h1>
     <h2>وزارة التربية</h2>
     <h2>الإدارة العامة للتعليم الخاص</h2>
@@ -182,12 +187,9 @@ ${record.visitor_note ? `
 </div>
 
 <script>
-  // Auto print after images load
-  window.onload = () => {
-    setTimeout(() => {
-      window.print();
-    }, 1000);
-  };
+  setTimeout(function() {
+    window.print();
+  }, 1000);
 </script>
 
 </body>
@@ -195,6 +197,8 @@ ${record.visitor_note ? `
 
   const w = window.open('', '_blank', 'width=920,height=720')
   if (!w) { alert('يرجى السماح بالنوافذ المنبثقة في المتصفح'); return }
+  
+  w.document.open()
   w.document.write(html)
   w.document.close()
 }
