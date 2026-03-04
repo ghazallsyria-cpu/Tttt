@@ -83,7 +83,7 @@ export default function EvalForm({ teachers, onSaved, showToast, currentUser }) 
 
           {/* Meta fields */}
           <div style={{ padding: '18px 22px', background: '#fffdf5', borderBottom: '2px solid #e8d58a' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '12px 16px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px 16px' }}>
 
               <Fld label="اسم المعلم" err={errors.teacher_id}>
                 <select style={{ ...S.sel, borderColor: errors.teacher_id ? ERR : '#c9a227' }}
@@ -132,12 +132,14 @@ export default function EvalForm({ teachers, onSaved, showToast, currentUser }) 
                   value={form.lesson_title} onChange={e => set('lesson_title', e.target.value)} />
               </Fld>
 
-              <Fld label="الصف والشعبة" err={errors.class_section} span={3}>
-                <ClassSectionSelect
-                  value={form.class_section}
-                  err={errors.class_section}
-                  onChange={v => { set('class_section', v); setErrors(e => { const n = { ...e }; delete n.class_section; return n }) }}
-                />
+              <Fld label="الصف والشعبة" err={errors.class_section} span="auto">
+                <div style={{ gridColumn: '1 / -1' }}>
+                  <ClassSectionSelect
+                    value={form.class_section}
+                    err={errors.class_section}
+                    onChange={v => { set('class_section', v); setErrors(e => { const n = { ...e }; delete n.class_section; return n }) }}
+                  />
+                </div>
               </Fld>
 
               <AttendanceFields
@@ -159,8 +161,8 @@ export default function EvalForm({ teachers, onSaved, showToast, currentUser }) 
           </div>
 
           {/* Criteria table */}
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
+          <div style={{ overflowX: 'auto', borderBottom: '1px solid #e8d58a' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', minWidth: '600px' }}>
               <thead>
                 <tr style={{ background: 'linear-gradient(135deg,#c9a227,#e8c84a,#b8960c)', color: '#2c1e00' }}>
                   <th style={{ padding: '9px 8px', border: '1px solid #a07b10', width: '34px', textAlign: 'center', fontWeight: '800' }}>م</th>
@@ -216,7 +218,7 @@ export default function EvalForm({ teachers, onSaved, showToast, currentUser }) 
           </div>
 
           {/* Signatures */}
-          <div style={{ padding: '14px 22px', background: '#f9f3e1', borderTop: '2px solid #e8d58a', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+          <div style={{ padding: '14px 22px', background: '#f9f3e1', borderTop: '2px solid #e8d58a', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
             <div>
               <label style={{ fontSize: '11px', color: '#6b5209', fontWeight: '700', display: 'block', marginBottom: '3px' }}>توقيع المعلم</label>
               <input style={S.inp} placeholder="اسم المعلم وتوقيعه" value={form.teacher_signature} onChange={e => set('teacher_signature', e.target.value)} />

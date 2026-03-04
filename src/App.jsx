@@ -43,24 +43,27 @@ export default function App() {
 
       {/* Navbar */}
       <nav style={{
-        background: '#2c1e00', padding: '0 16px', height: '48px',
+        background: '#2c1e00', padding: '0 16px', minHeight: '48px',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        color: '#e8d58a', borderBottom: '3px solid #c9a227'
+        color: '#e8d58a', borderBottom: '3px solid #c9a227', flexWrap: 'wrap',
+        paddingTop: '8px', paddingBottom: '8px', gap: '10px'
       }}>
-        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
           <img src={LOGO_URL} alt="Logo" style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover', border: '1px solid #c9a227' }} referrerPolicy="no-referrer" />
-          <div style={{ fontWeight: '900', fontSize: '16px' }}>🇰🇼 نظام التقييم</div>
-          <div style={{ width: '1px', height: '20px', background: '#555' }}></div>
-          {user.role === 'admin' && (
-            <>
-              <button onClick={() => setPage('dashboard')} style={{ background: 'none', border: 'none', color: page === 'dashboard' ? '#fff' : '#aaa', cursor: 'pointer', fontWeight: '700' }}>📊 السجل</button>
-              <button onClick={() => setPage('teachers')} style={{ background: 'none', border: 'none', color: page === 'teachers' ? '#fff' : '#aaa', cursor: 'pointer', fontWeight: '700' }}>👨🏫 المعلمين</button>
-            </>
-          )}
-          <button onClick={() => setPage('eval')} style={{ background: 'none', border: 'none', color: page === 'eval' ? '#fff' : '#aaa', cursor: 'pointer', fontWeight: '700' }}>📝 نموذج تقييم</button>
+          <div style={{ fontWeight: '900', fontSize: '14px', whiteSpace: 'nowrap' }}>🇰🇼 نظام التقييم</div>
+          <div style={{ width: '1px', height: '20px', background: '#555', display: 'none' }}></div>
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+            {user.role === 'admin' && (
+              <>
+                <button onClick={() => setPage('dashboard')} style={{ background: 'none', border: 'none', color: page === 'dashboard' ? '#fff' : '#aaa', cursor: 'pointer', fontWeight: '700', fontSize: '13px' }}>📊 السجل</button>
+                <button onClick={() => setPage('teachers')} style={{ background: 'none', border: 'none', color: page === 'teachers' ? '#fff' : '#aaa', cursor: 'pointer', fontWeight: '700', fontSize: '13px' }}>👨‍🏫 المعلمين</button>
+              </>
+            )}
+            <button onClick={() => setPage('eval')} style={{ background: 'none', border: 'none', color: page === 'eval' ? '#fff' : '#aaa', cursor: 'pointer', fontWeight: '700', fontSize: '13px' }}>📝 تقييم</button>
+          </div>
         </div>
-        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-          <span style={{ fontSize: '12px', color: '#aaa' }}>مرحباً، {user.full_name}</span>
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginLeft: 'auto' }}>
+          <span style={{ fontSize: '11px', color: '#aaa', display: 'none' }}>مرحباً، {user.full_name}</span>
           <button onClick={() => setUser(null)} style={{ background: '#8b2500', color: '#fff', border: 'none', borderRadius: '4px', padding: '4px 10px', fontSize: '11px', cursor: 'pointer' }}>خروج</button>
         </div>
       </nav>

@@ -166,8 +166,9 @@ export default function Dashboard({ teachers, showToast }) {
                     </div>
 
                     {/* Criteria */}
-                    <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12px' }}>
-                      <thead>
+                    <div style={{ overflowX: 'auto', border: '1px solid #e0d09a', borderRadius: '8px' }}>
+                      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12px', minWidth: '600px' }}>
+                        <thead>
                         <tr style={{ background: 'linear-gradient(135deg,#c9a227,#e8c84a)', color: '#2c1e00' }}>
                           <th style={{ padding: '6px 8px', border: '1px solid #a07b10', textAlign: 'center', width: '32px' }}>م</th>
                           <th style={{ padding: '6px 10px', border: '1px solid #a07b10', textAlign: 'right' }}>بند التقييم</th>
@@ -191,6 +192,7 @@ export default function Dashboard({ teachers, showToast }) {
                         })}
                       </tbody>
                     </table>
+                    </div>
 
                     {r.visitor_note && (
                       <div style={{ marginTop: '8px', padding: '8px 12px', background: '#f0e8cc', borderRadius: '6px', fontSize: '12px' }}>

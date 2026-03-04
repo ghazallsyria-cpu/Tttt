@@ -146,7 +146,7 @@ export function AttendanceFields({ present, absent, total, onChange }) {
     : null
 
   return (
-    <div style={{ gridColumn: 'span 3', background: '#fffdf5', border: '2px solid #c9a227', borderRadius: '10px', padding: '12px 16px' }}>
+    <div style={{ gridColumn: '1 / -1', background: '#fffdf5', border: '2px solid #c9a227', borderRadius: '10px', padding: '12px 16px' }}>
       <div style={{ fontSize: '12px', fontWeight: '800', color: '#8a6d0b', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '8px' }}>
         📊 بيانات الحضور والغياب
         {pct !== null && (
@@ -160,7 +160,7 @@ export function AttendanceFields({ present, absent, total, onChange }) {
           </span>
         )}
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: '12px' }}>
         {[
           { field: 'present', label: '✅ عدد الحضور',    val: present, bc: '#2d6a4f', bg: '#f0fff4', tc: '#1a5c38' },
           { field: 'absent',  label: '❌ عدد الغياب',    val: absent,  bc: '#c0392b', bg: '#fff5f5', tc: '#8b2500' },
@@ -197,9 +197,9 @@ export function PageHeader({ academicYear, semester }) {
       <div style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: '14px 22px 10px', borderBottom: '3px solid #b8960c',
-        background: '#fffdf5', gap: '10px', flexWrap: 'wrap',
+        background: '#fffdf5', gap: '16px', flexWrap: 'wrap',
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: '1 1 200px' }}>
           <img src={LOGO_URL} alt="Logo" style={{ width: '60px', height: '60px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #c9a227' }} referrerPolicy="no-referrer" />
           <div style={{ textAlign: 'right' }}>
             <div style={{ fontSize: '13px', fontWeight: '700', color: '#8a6d0b' }}>وزارة التربية</div>
@@ -207,12 +207,12 @@ export function PageHeader({ academicYear, semester }) {
             <div style={{ fontSize: '11px', color: '#6b5209' }}>مدرسة الرفعة النموذجية (م-ث) بنين</div>
           </div>
         </div>
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: 'center', flex: '1 1 100px' }}>
           <div style={{ fontSize: '46px', lineHeight: 1 }}>🇰🇼</div>
           <div style={{ fontSize: '10px', color: '#8a6d0b', fontWeight: '700', marginTop: '3px' }}>دولة الكويت</div>
         </div>
-        <div>
-          <div style={{ background: 'linear-gradient(135deg,#c9a227,#e8c84a)', borderRadius: '8px', padding: '6px 14px', textAlign: 'center' }}>
+        <div style={{ flex: '1 1 100px', display: 'flex', justifyContent: 'flex-end' }}>
+          <div style={{ background: 'linear-gradient(135deg,#c9a227,#e8c84a)', borderRadius: '8px', padding: '6px 14px', textAlign: 'center', minWidth: '100px' }}>
             <div style={{ fontSize: '12px', fontWeight: '900', color: '#2c1e00' }}>{academicYear}</div>
             <div style={{ fontSize: '11px', fontWeight: '700', color: '#3a2400' }}>{semester}</div>
           </div>

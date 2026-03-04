@@ -31,14 +31,35 @@ export default function Login({ onLogin }) {
     <div style={{
       direction: 'rtl', fontFamily: "'Cairo',sans-serif", minHeight: '100vh',
       background: 'linear-gradient(135deg,#1a0e00 0%,#3a2400 50%,#c9a227 100%)',
-      display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px',
+      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '20px',
     }}>
+      {/* Logo above the card */}
+      <div style={{ marginBottom: '30px', textAlign: 'center' }}>
+        <div style={{
+          padding: '12px', background: 'rgba(201,162,39,0.1)',
+          borderRadius: '50%', border: '2px solid #c9a227',
+          boxShadow: '0 0 30px rgba(201,162,39,0.4)',
+          display: 'inline-block'
+        }}>
+          <img 
+            src={LOGO_URL} 
+            alt="Logo" 
+            style={{ 
+              width: '120px', height: '120px', 
+              borderRadius: '50%', objectFit: 'cover', 
+              display: 'block',
+              filter: 'sepia(1) saturate(5) hue-rotate(10deg) brightness(1.1) contrast(1.2) drop-shadow(0 0 8px #c9a227)'
+            }} 
+            referrerPolicy="no-referrer" 
+          />
+        </div>
+      </div>
+
       <div style={{
         background: '#fff', borderRadius: '18px', padding: '44px 38px',
         width: '100%', maxWidth: '360px',
         boxShadow: '0 24px 70px rgba(0,0,0,0.4)', border: '3px solid #c9a227', textAlign: 'center',
       }}>
-        <img src={LOGO_URL} alt="Logo" style={{ width: '100px', height: '100px', marginBottom: '16px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #c9a227' }} referrerPolicy="no-referrer" />
         <h2 style={{ margin: '0 0 4px', color: '#8a6d0b', fontSize: '20px', fontWeight: '900' }}>نظام تقييم المعلمين</h2>
         <p style={{ color: '#aaa', fontSize: '12px', marginBottom: '8px' }}>وزارة التربية – دولة الكويت</p>
         <div style={{
