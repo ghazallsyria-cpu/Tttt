@@ -1,11 +1,52 @@
-<div align="center">
+# نظام تقييم المعلمين – وزارة التربية الكويت
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+نظام لإدارة وتقييم أداء المعلمين في الفصول الافتراضية، مبني باستخدام React و Supabase.
 
-  <h1>Built with AI Studio</h2>
+## المميزات
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+- **إدارة المعلمين:** إضافة، تعديل، وحذف بيانات المعلمين.
+- **نماذج التقييم:** تعبئة نماذج تقييم مفصلة تشمل الحضور، الأداء، والملاحظات.
+- **لوحة التحكم:** عرض سجل التقييمات مع إمكانية البحث والفلترة.
+- **تصدير PDF:** طباعة التقييمات بتنسيق رسمي جاهز للتوقيع.
+- **صلاحيات المستخدمين:** تسجيل دخول كمدير (Admin) أو زائر (Visitor).
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+## طريقة التشغيل محلياً (Local Development)
 
-</div>
+1.  تثبيت المكتبات:
+    ```bash
+    npm install
+    ```
+
+2.  إعداد متغيرات البيئة:
+    - انسخ ملف `.env.example` إلى `.env`.
+    - أضف روابط ومفاتيح Supabase الخاصة بك.
+
+3.  تشغيل السيرفر المحلي:
+    ```bash
+    npm run dev
+    ```
+
+## النشر على Netlify
+
+### الخيار الأول: الربط مع GitHub (موصى به)
+1.  ارفع المشروع على مستودع GitHub جديد.
+2.  سجل الدخول إلى Netlify واختر "New site from Git".
+3.  اختر المستودع الخاص بك.
+4.  في إعدادات النشر (Build settings)، تأكد من:
+    - **Build command:** `npm run build`
+    - **Publish directory:** `dist`
+5.  أضف متغيرات البيئة (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`) في إعدادات الموقع على Netlify.
+
+### الخيار الثاني: النشر اليدوي (Drag & Drop)
+1.  قم ببناء المشروع محلياً:
+    ```bash
+    npm run build
+    ```
+2.  سيظهر مجلد جديد باسم `dist`.
+3.  سجل الدخول إلى Netlify واسحب مجلد `dist` وأفلته في لوحة التحكم.
+
+## هيكلية المشروع
+
+- `/src/pages`: صفحات التطبيق الرئيسية.
+- `/src/components`: مكونات الواجهة المعاد استخدامها.
+- `/src/lib`: دوال مساعدة والاتصال بقاعدة البيانات.

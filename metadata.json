@@ -1,0 +1,5 @@
+{
+  "name": "Custom Website Builder",
+  "description": "A website built by iteratively refining user-provided files.",
+  "requestFramePermissions": []
+}
